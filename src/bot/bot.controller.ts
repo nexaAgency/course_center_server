@@ -1,4 +1,4 @@
-import { Start, Update } from 'nestjs-telegraf';
+import { On, Start, Update } from 'nestjs-telegraf';
 import { Context } from 'telegraf';
 import { BotService } from './services/bot.service';
 
@@ -9,5 +9,10 @@ export class BotController {
   @Start()
   async startCommand(ctx: Context) {
     await this.botService.handleStartCommand(ctx);
+  }
+
+  @On('video')
+  async onVideo(ctx: Context) {
+    await this.botService.replyWithCurrentVideoId(ctx);
   }
 }

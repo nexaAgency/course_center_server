@@ -14,25 +14,36 @@ export class BotService {
     await ctx.replyWithSticker(stickerId);
   }
 
+  async replyWithCurrentVideoId(ctx: Context) {
+    if ('video' in ctx.message) {
+      const videoId = ctx.message.video.file_id;
+      await ctx.reply(`Video ID: ${videoId}`);
+    } else {
+      await ctx.reply('No video found in the message.');
+    }
+  }
+
+  async sendVideo(ctx: Context, videoId: string) {
+    await ctx.sendVideo(videoId);
+  }
+
   async handleStartCommand(ctx: Context) {
     // const languageCode = ctx.from?.language_code;
-
     await ctx.reply('hello', {
       reply_markup: {
         inline_keyboard: [
-          [Markup.button.webApp('hello', process.env.ORIGIN_MINIAPP)],
+          // [Markup.button.webApp('hello', process.env.ORIGIN_MINIAPP)],
           // [Markup.button.url('hello', TelegramLinks.Channel)],
         ],
       },
     });
-
-    await ctx.setChatMenuButton({
-      type: 'web_app',
-      text: 'hello',
-      web_app: {
-        url: process.env.ORIGIN_MINIAPP,
-      },
-    });
+    // await ctx.setChatMenuButton({
+    //   type: 'web_app',
+    //   text: 'hello',
+    //   web_app: {
+    //     url: process.env.ORIGIN_MINIAPP,
+    //   },
+    // });
   }
 
   async isSubscribedToTelegram(telegramId: number, telegramChannel: string) {
